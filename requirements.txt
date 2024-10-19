@@ -1,0 +1,6 @@
+google-generativeai
+pytubefix
+torch
+numpy
+transformers
+moviepy

@@ -1,4 +1,5 @@
 import os
+import time
 
 import textwrap
 
@@ -57,15 +58,20 @@ def main():
 
     download_video(video_url)
 
-    print('\nstarting transcript\n')
+    print('\n\nstarting transcript\n')
 
+    start_time = time.time()
     make_transcript(f'{TMP_FILES_DIR}/tmp.mp4')
 
+    clean(f'{TMP_FILES_DIR}/tmp.mp4')
+    clean(f'{TMP_FILES_DIR}/tmp.mp3')
+
     print('\ntranscript finished\n')
+    print(f'time taken: {time.time() - start_time} seconds\n')
 
     prompt = make_prompt(f'{TMP_FILES_DIR}/tmp.txt', prompt_template)
 
-    print(f'\nprompt: \n {prompt} \n')
+    print(f'prompt: {prompt}')
 
     print('\nasking chat\n')
 
@@ -77,10 +83,16 @@ def main():
 
     print(output)
 
-    clean(f'{TMP_FILES_DIR}/tmp.mp4')
-    clean(f'{TMP_FILES_DIR}/tmp.mp3')
+    print('\n_________________________________________________________________\n')
+    print('follow up questions: \n')
+
     clean(f'{TMP_FILES_DIR}/tmp.txt')
-    
+
+    while True:
+        response = chat.send_message(input('\nEnter your question: '))
+        output = textwrap.fill(response.text, width=100)
+        print(f'\n{output}')
+
 
 if __name__ == '__main__':
     main()

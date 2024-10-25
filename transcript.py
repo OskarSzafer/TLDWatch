@@ -25,7 +25,6 @@ def make_transcript(video_path: str):
 
         with open(video_path_txt, 'w') as file:
             text_to_write = result['text'].strip()
-            print(text_to_write)
             file.write(text_to_write)
     except Exception as e:
         print(f'error: {e}')
